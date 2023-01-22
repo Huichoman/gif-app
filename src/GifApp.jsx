@@ -2,31 +2,23 @@ import { useState } from "react";
 import * as component from "./components";
 
 export const GifApp = () => {
-  const [categories, setCategories] = useState([
-    "Aimi",
-    "Memo",
-    "Moyi",
-    "Normita",
-  ]);
+  const [categories, setCategories] = useState(["Pokemon"]);
 
-  const onAddCategory = (value) => {
-    console.log("value > ", value);
+  const onAddCategory = (newCategory) => {
+    console.log("value > ", newCategory);
+    if (categories.includes(newCategory)) return;
 
-    setCategories([value, ...categories]);
+    setCategories([newCategory, ...categories]);
   };
   return (
     <>
-      <component.AddCategory
-        onAddCategory={(value) => onAddCategory(value)}
-        // categories={categories}
-      />
       <h1>GifApp</h1>
 
-      <ol>
-        {categories.map((element, index) => {
-          return <li key={index}>{element}</li>;
-        })}
-      </ol>
+      <component.AddCategory onAddCategory={(value) => onAddCategory(value)} />
+
+      {categories.map((category, index) => (
+        <component.GifGrid category={category} key={`${category + index}`} />
+      ))}
     </>
   );
 };
